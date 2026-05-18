@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLYMPOS MATHEMATIKON — Matematik 4 NP</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a227;
+  --gold-light: #f0d060;
+  --gold-dim: #7a6115;
+  --dark: #06080f;
+  --dark2: #0c1020;
+  --dark3: #111827;
+  --cream: #ede0c4;
+  --cream-dim: rgba(237,224,196,0.55);
+  --cream-faint: rgba(237,224,196,0.18);
+  --border-gold: rgba(201,162,39,0.3);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:#04060c;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(100,80,10,0.18) 0%, transparent 70%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  color:var(--cream);
+  font-family:'EB Garamond',Georgia,serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* MARBLE TEXTURE OVERLAY */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+}
+
+/* STARS */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,200,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 60%, rgba(255,255,200,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 15%, rgba(255,255,200,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 75%, rgba(255,255,200,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 35%, rgba(255,255,200,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 80%, rgba(255,255,200,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 90%, rgba(255,255,200,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 50% 50%, rgba(255,255,200,0.2) 0%, transparent 100%);
+  pointer-events:none;
+  z-index:0;
+  opacity:0.7;
+}
+
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:1rem}
+
+/* ===== HEADER ===== */
+.temple-header{
+  text-align:center;
+  padding:3rem 2rem 2rem;
+  position:relative;
+}
+.temple-header::before,.temple-header::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:5px;
+  background:linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+}
+.temple-header::after{top:8px;height:1px;background:linear-gradient(90deg, transparent, rgba(201,162,39,0.4), transparent)}
+
+.eyebrow{
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  letter-spacing:0.5em;
+  color:rgba(201,162,39,0.65);
+  text-transform:uppercase;
+  margin-bottom:1rem;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.eyebrow span{display:inline-block;width:60px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,162,39,0.5))}
+.eyebrow span:last-child{background:linear-gradient(90deg,rgba(201,162,39,0.5),transparent)}
+
+.main-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.5rem,8vw,4.5rem);
+  font-weight:900;
+  color:var(--gold);
+  letter-spacing:0.12em;
+  line-height:1;
+  text-shadow:0 0 60px rgba(201,162,39,0.25),0 2px 40px rgba(0,0,0,0.8);
+  animation:goldglow 4s ease infinite;
+}
+@keyframes goldglow{
+  0%,100%{text-shadow:0 0 60px rgba(201,162,39,0.2),0 2px 40px rgba(0,0,0,0.8)}
+  50%{text-shadow:0 0 80px rgba(201,162,39,0.4),0 0 20px rgba(201,162,39,0.15),0 2px 40px rgba(0,0,0,0.8)}
+}
+.sub-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1rem,3vw,1.4rem);
+  font-weight:400;
+  letter-spacing:0.55em;
+  color:rgba(201,162,39,0.5);
+  margin-top:6px;
+}
+.header-desc{
+  font-style:italic;
+  font-size:1.1rem;
+  color:var(--cream-dim);
+  margin-top:1rem;
+  letter-spacing:0.04em;
+}
+.header-warning{
+  display:inline-block;
+  margin-top:0.75rem;
+  font-size:0.78rem;
+  letter-spacing:0.08em;
+  color:rgba(237,224,196,0.28);
+  border:1px solid rgba(201,162,39,0.15);
+  padding:4px 16px;
+  border-radius:3px;
+}
+
+/* MEANDER BORDER */
+.meander{
+  height:22px;
+  margin:1rem 0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='22'%3E%3Cpath d='M2 11 h8 V3 h28 V19 H26 V11 H18 V19 H2 Z' fill='none' stroke='%23b8942a' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;
+  background-position:center;
+  opacity:0.45;
+}
+
+/* DIVINE ORACLE BOX */
+.oracle-box{
+  border:1px solid var(--border-gold);
+  border-radius:8px;
+  background:rgba(12,16,32,0.7);
+  backdrop-filter:blur(4px);
+  padding:2rem;
+  margin-bottom:1.5rem;
+  position:relative;
+  overflow:hidden;
+}
+.oracle-box::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(201,162,39,0.08);
+  border-radius:8px;
+  pointer-events:none;
+}
+
+/* COLUMNS DECORATION */
+.col-deco{
+  display:flex;
+  justify-content:space-between;
+  align-items:stretch;
+  margin:0 -2rem;
+  padding:0 2rem;
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  opacity:0.06;
+}
+.col-deco::before,.col-deco::after{
+  content:'';
+  width:18px;
+  background:linear-gradient(180deg,var(--gold) 0%,rgba(201,162,39,0.3) 100%);
+  border-radius:2px;
+}
+
+/* ===== TOPICS ===== */
+.section-label{
+  font-family:'Cinzel',serif;
+  font-size:0.68rem;
+  letter-spacing:0.35em;
+  color:rgba(201,162,39,0.5);
+  text-transform:uppercase;
+  margin-bottom:0.75rem;
+}
+.topic-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.tbtn{
+  background:transparent;
+  border:1px solid rgba(201,162,39,0.28);
+  color:rgba(237,224,196,0.55);
+  padding:7px 16px;
+  border-radius:4px;
+  font-family:'EB Garamond',serif;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all 0.2s;
+  letter-spacing:0.03em;
+}
+.tbtn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,0.06)}
+.tbtn.act{
+  border-color:var(--gold);
+  color:var(--gold);
+  background:rgba(201,162,39,0.12);
+  box-shadow:0 0 12px rgba(201,162,39,0.1);
+}
+.topic-desc{
+  font-style:italic;
+  font-size:0.88rem;
+  color:rgba(237,224,196,0.3);
+  margin-top:0.6rem;
+  min-height:1.2em;
+  letter-spacing:0.02em;
+}
+
+/* ===== SUMMON BUTTON ===== */
+.summon-wrap{text-align:center;margin:1.75rem 0 1.25rem}
+.summon-btn{
+  background:linear-gradient(180deg,rgba(201,162,39,0.18) 0%,rgba(201,162,39,0.08) 100%);
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Cinzel',serif;
+  font-size:1.05rem;
+  font-weight:700;
+  letter-spacing:0.22em;
+  padding:16px 40px;
+  cursor:pointer;
+  border-radius:5px;
+  text-transform:uppercase;
+  transition:all 0.25s;
+  position:relative;
+  overflow:hidden;
+}
+.summon-btn::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(201,162,39,0.15),transparent);
+  transform:translateX(-100%);
+  transition:transform 0.6s ease;
+}
+.summon-btn:hover:not(:disabled)::before{transform:translateX(100%)}
+.summon-btn:hover:not(:disabled){
+  background:linear-gradient(180deg,rgba(201,162,39,0.28) 0%,rgba(201,162,39,0.14) 100%);
+  box-shadow:0 0 30px rgba(201,162,39,0.2),0 0 60px rgba(201,162,39,0.08);
+}
+.summon-btn:active:not(:disabled){transform:scale(0.98)}
+.summon-btn:disabled{opacity:0.35;cursor:not-allowed}
+
+/* ===== LOADING ===== */
+.loader{
+  text-align:center;
+  padding:3rem 1rem;
+  display:none;
+}
+.loader.vis{display:block}
+.loader-bolt{
+  font-size:3.5rem;
+  display:block;
+  animation:boltzap 1.2s ease infinite;
+}
+@keyframes boltzap{
+  0%,100%{opacity:1;transform:scale(1)}
+  30%{opacity:0.1;transform:scale(0.9)}
+  45%{opacity:1;transform:scale(1.05)}
+  70%{opacity:0.3;transform:scale(0.95)}
+}
+.loader-msg{
+  font-family:'Cinzel',serif;
+  font-size:0.8rem;
+  letter-spacing:0.35em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-top:0.75rem;
+  animation:fadewave 1.2s ease infinite;
+}
+@keyframes fadewave{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ===== EMPTY STATE ===== */
+.empty{
+  text-align:center;
+  padding:3rem 1rem;
+  color:rgba(237,224,196,0.2);
+}
+.empty-icon{font-size:4rem;display:block;margin-bottom:0.75rem;opacity:0.6}
+.empty-title{
+  font-family:'Cinzel',serif;
+  font-size:0.85rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  margin-bottom:0.5rem;
+}
+.empty-sub{font-style:italic;font-size:0.95rem;opacity:0.6}
+
+/* ===== PROBLEM CARD ===== */
+.prob-card{
+  background:rgba(8,12,24,0.8);
+  border:1px solid rgba(201,162,39,0.28);
+  border-radius:8px;
+  padding:1.75rem;
+  display:none;
+  animation:cardrise 0.45s cubic-bezier(0.2,0,0.2,1);
+  position:relative;
+}
+.prob-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),var(--gold),var(--gold-dim),transparent);
+  border-radius:8px 8px 0 0;
+}
+.prob-card.vis{display:block}
+@keyframes cardrise{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+.prob-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid rgba(201,162,39,0.18);
+  margin-bottom:1rem;
+}
+.prob-title-area{flex:1}
+.prob-title{
+  font-family:'Cinzel',serif;
+  font-size:1.05rem;
+  color:var(--gold);
+  letter-spacing:0.08em;
+  line-height:1.3;
+}
+.prob-meta{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:0.5rem;
+  flex-wrap:wrap;
+}
+.diff-stars{display:flex;gap:2px;align-items:center}
+.diff-star{font-size:0.95rem;transition:color 0.2s}
+.topic-chip{
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  letter-spacing:0.12em;
+  color:rgba(201,162,39,0.6);
+  background:rgba(201,162,39,0.08);
+  border:1px solid rgba(201,162,39,0.22);
+  padding:3px 10px;
+  border-radius:3px;
+  text-transform:uppercase;
+}
+.prob-num{
+  font-family:'Cinzel',serif;
+  font-size:2.5rem;
+  font-weight:700;
+  color:rgba(201,162,39,0.12);
+  line-height:1;
+  letter-spacing:0;
+  min-width:3rem;
+  text-align:right;
+}
+.prob-body{
+  font-size:1.18rem;
+  line-height:1.9;
+  color:var(--cream);
+  margin-bottom:0.5rem;
+}
+.prob-body .katex-display{
+  margin:1rem 0 !important;
+  overflow-x:auto;
+}
+
+/* HINT */
+.hint-panel{
+  border-left:2px solid rgba(201,162,39,0.4);
+  padding:0.75rem 1rem;
+  margin-top:1rem;
+  display:none;
+  font-style:italic;
+  font-size:1rem;
+  color:var(--cream-dim);
+  line-height:1.65;
+  background:rgba(201,162,39,0.04);
+  border-radius:0 4px 4px 0;
+  animation:fadein 0.3s ease;
+}
+.hint-panel.vis{display:block}
+.hint-label{
+  font-style:normal;
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  letter-spacing:0.2em;
+  color:rgba(201,162,39,0.6);
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:0.4rem;
+}
+
+/* SOLUTION */
+.sol-panel{
+  background:rgba(0,0,0,0.3);
+  border:1px solid rgba(201,162,39,0.18);
+  border-radius:6px;
+  padding:1.25rem 1.5rem;
+  margin-top:1rem;
+  display:none;
+  animation:fadein 0.3s ease;
+}
+.sol-panel.vis{display:block}
+.sol-label{
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  letter-spacing:0.25em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:0.75rem;
+  display:flex;align-items:center;gap:8px;
+}
+.sol-label::after{content:'';flex:1;height:1px;background:rgba(201,162,39,0.2)}
+.sol-body{
+  font-size:1.05rem;
+  line-height:1.95;
+  color:rgba(237,224,196,0.82);
+}
+.sol-body .katex-display{margin:0.75rem 0 !important;overflow-x:auto}
+
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* ACTIONS */
+.prob-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:1.25rem;
+  padding-top:1.1rem;
+  border-top:1px solid rgba(201,162,39,0.12);
+}
+.abtn{
+  background:transparent;
+  border:1px solid rgba(201,162,39,0.28);
+  color:rgba(237,224,196,0.62);
+  padding:8px 18px;
+  border-radius:4px;
+  font-family:'EB Garamond',serif;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all 0.18s;
+  letter-spacing:0.03em;
+}
+.abtn:hover{border-color:rgba(201,162,39,0.65);color:var(--cream);background:rgba(201,162,39,0.06)}
+.abtn.gold{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,0.06)}
+.abtn.gold:hover{background:rgba(201,162,39,0.14)}
+
+/* ===== STATS BAR ===== */
+.stats-bar{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  margin-top:1.5rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(201,162,39,0.1);
+  font-family:'Cinzel',serif;
+  font-size:0.72rem;
+  letter-spacing:0.18em;
+  color:rgba(201,162,39,0.35);
+  text-transform:uppercase;
+}
+.stat-item span{
+  color:rgba(201,162,39,0.7);
+  font-size:1.1rem;
+  font-weight:700;
+  display:block;
+  text-align:center;
+  margin-bottom:2px;
+}
+
+/* ===== FOOTER ===== */
+.temple-footer{
+  text-align:center;
+  padding:2rem;
+  position:relative;
+}
+.temple-footer::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);
+}
+.temple-footer::after{
+  content:'';
+  position:absolute;
+  bottom:8px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,162,39,0.35),transparent);
+}
+.footer-txt{
+  font-family:'Cinzel',serif;
+  font-size:0.72rem;
+  letter-spacing:0.3em;
+  color:rgba(201,162,39,0.3);
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+.footer-sub{
+  font-style:italic;
+  font-size:0.85rem;
+  color:rgba(237,224,196,0.18);
+}
+
+/* KATEX OVERRIDES */
+.katex{color:var(--cream) !important}
+.katex-display{margin:1rem 0 !important}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:rgba(201,162,39,0.05)}
+::-webkit-scrollbar-thumb{background:rgba(201,162,39,0.3);border-radius:3px}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .oracle-box{padding:1.25rem}
+  .main-title{font-size:2.2rem}
+  .summon-btn{padding:14px 24px;font-size:0.9rem;letter-spacing:0.15em}
+  .prob-body{font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="temple-header">
+    <div class="eyebrow">
+      <span></span> Nationella Prov · Matematik 4 · NP <span></span>
+    </div>
+    <h1 class="main-title">OLYMPOS</h1>
+    <div class="sub-title">MATHEMATIKON</div>
+    <p class="header-desc">
+      Gudat av Zeus — Vaktat av Athena — Fruktad av Poseidon<br>
+      Den enda sanktionerade källan för gudomliga matematikuppgifter
+    </p>
+    <div class="header-warning">⚠ Varning: Poseidon förbannar den som ger enkla uppgifter ⚠</div>
+  </header>
+
+  <div class="meander"></div>
+
+  <!-- TOPIC SELECTOR -->
+  <div class="oracle-box">
+    <div class="section-label">⚡ Välj ditt matematiska öde</div>
+    <div class="topic-grid" id="topicGrid"></div>
+    <div class="topic-desc" id="topicDesc"></div>
+  </div>
+
+  <!-- SUMMON -->
+  <div class="summon-wrap">
+    <button class="summon-btn" id="sbtn" onclick="gen()">
+      ⚡ Kalla på Zeus — Framkalla Uppgift ⚡
+    </button>
+  </div>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="oracle-box" style="min-height:280px">
+
+    <!-- EMPTY -->
+    <div class="empty" id="emptyState">
+      <span class="empty-icon">🏛️</span>
+      <div class="empty-title">Templet Väntar på Ditt Mod</div>
+      <div class="empty-sub">Tryck på knappen ovan och möt din matematiska öde</div>
+    </div>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+      <span class="loader-bolt">⚡</span>
+      <div class="loader-msg" id="loaderMsg">Zeus formular uppgiften...</div>
+    </div>
+
+    <!-- PROBLEM CARD -->
+    <div class="prob-card" id="probCard">
+      <div class="prob-header">
+        <div class="prob-title-area">
+          <div class="prob-title" id="probTitle"></div>
+          <div class="prob-meta">
+            <div class="diff-stars" id="diffEl"></div>
+            <div class="topic-chip" id="topicChip"></div>
+          </div>
+        </div>
+        <div class="prob-num" id="probNum">#1</div>
+      </div>
+
+      <div class="prob-body" id="probBody"></div>
+
+      <div class="hint-panel" id="hintPanel">
+        <span class="hint-label">Apollons Subtila Tips</span>
+        <span id="hintTxt"></span>
+      </div>
+
+      <div class="sol-panel" id="solPanel">
+        <div class="sol-label">⚡ Gudomlig Lösning</div>
+        <div class="sol-body" id="solBody"></div>
+      </div>
+
+      <div class="prob-actions">
+        <button class="abtn" onclick="toggleHint()">💡 Apollons Tips</button>
+        <button class="abtn" onclick="toggleSol()">📜 Visa Lösning</button>
+        <button class="abtn gold" onclick="gen()">Ny Uppgift →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span id="cntTotal">0</span>
+      Uppgifter
+    </div>
+    <div class="stat-item">
+      <span id="cntCorrect">0</span>
+      Avklarade
+    </div>
+    <div class="stat-item">
+      <span id="cntDiff">—</span>
+      Svårighetsgrad
+    </div>
+  </div>
+
+  <div class="meander" style="margin-top:1.5rem"></div>
+
+  <!-- FOOTER -->
+  <footer class="temple-footer">
+    <div class="footer-txt">OLYMPOS MATHEMATIKON · Matematik 4 NP</div>
+    <div class="footer-sub">Gudarnas kunskapsträd — oändliga uppgifter, evig visdom</div>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+const TOPICS = [
+  {
+    id: 'trig',
+    name: 'Trigonometri',
+    desc: 'Trigonometriska ekvationer, identiteter, cosinus/sinusregeln, enhetscirkeln, inversafunktioner och kombinationer',
+    prompt: 'Trigonometri för Matematik 4: Skapa en uppgift som kombinerar trigonometriska identiteter (t.ex. additionsformler, dubbel-vinkelformler), trigonometriska ekvationer med multipla lösningar, och/eller cosinus-/sinusregeln i en komplex geometrisk kontext. Uppgiften ska kräva ingående kunskaper om enhetscirkeln och inverstrigonometriska funktioner.'
+  },
+  {
+    id: 'deriv',
+    name: 'Derivata & Analys',
+    desc: 'Kedjeregeln, produktregeln, kvotregel, optimering, implicit derivering, L\'Hôpitals regel, kurvor',
+    prompt: 'Derivata och analys för Matematik 4: Skapa en uppgift som kombinerar minst två av följande: implicit derivering av komplexa kurvor, optimering med bivillkor, L\'Hôpitals regel för gränsvärden av 0/0 eller ∞/∞-form, kedjeregeln tillämpad på sammansatta funktioner med trigonometri/exp/ln, eller extremvärdesproblem med verkliga tillämpningar. Ska kräva djup förståelse, inte bara formelräkning.'
+  },
+  {
+    id: 'int',
+    name: 'Integraler',
+    desc: 'Substitution, partiell integration, partialbråksuppdelning, area, volym, generaliserade integraler',
+    prompt: 'Integraler för Matematik 4: Skapa en extremt utmanande integrationsuppgift som kräver kombination av flera tekniker. Kan inkludera: partiell integration upprepade gånger, partialbråksuppdelning för rationella funktioner, trigonometrisk substitution, beräkning av area/volym med roterationssymmetri, eller generaliserade integraler med konvergensanalys. Ska inte vara trivial att identifiera rätt metod.'
+  },
+  {
+    id: 'komplex',
+    name: 'Komplexa Tal',
+    desc: 'Polarform, de Moivres sats, rötter ur komplexa tal, Eulers formel, komplexa ekvationer',
+    prompt: 'Komplexa tal för Matematik 4: Skapa en uppgift om komplexa tal som kombinerar polarform med Eulers formel (e^(iθ) = cosθ + i·sinθ), de Moivres sats för beräkning av höga potenser eller rötter, och/eller lösning av polynomekvationer i ℂ. Uppgiften ska kräva omvandling mellan rektangulär och polär form, och gärna ha geometrisk tolkning i det komplexa talplanet.'
+  },
+  {
+    id: 'diffeq',
+    name: 'Diff.ekvationer',
+    desc: 'Separabla, linjära av 1:a och 2:a ordningen, begynnelsevärdesproblem, karaktärsekvationer',
+    prompt: 'Differentialekvationer för Matematik 4: Skapa en utmanande uppgift om differentialekvationer, gärna med verklig tillämpning (populationsdynamik, kylning, radioaktivt sönderfall, oscillationer). Kan inkludera: linjär differentialekvation av 1:a ordningen med integrerande faktor, separabel DE med komplexa uttryck, eller 2:a ordningens homogen/inhomogen DE med karakteristisk ekvation. Inkludera begynnelsevärden och kräv fullständig lösning.'
+  },
+  {
+    id: 'vektor',
+    name: 'Vektorer & 3D-geometri',
+    desc: 'Kryssprodukt, skalärprodukt, plan och linjer i 3D, projektion, volymer, avstånd',
+    prompt: 'Vektorer och 3D-geometri för Matematik 4: Skapa en uppgift med komplexa 3D-beräkningar som kombinerar: skalär- och kryssprodukt för att hitta normaler/areor/volymer, parametrisering av linjer och plan i rymden, avstånd punkt-till-plan eller linje-till-linje, projektion av vektorer, och/eller volymberäkning av parallelepiped/tetraeder. Ska kräva flera steg och djup geometrisk förståelse.'
+  },
+  {
+    id: 'serie',
+    name: 'Serier & Konvergens',
+    desc: 'Geometriska serier, Taylorserier, potensserier, konvergenskriterier, summor',
+    prompt: 'Serier och konvergens för Matematik 4: Skapa en uppgift om serier som kan inkludera: beräkning av summan av geometrisk/aritmetisk-geometrisk serie, härledning av Taylorserie/Maclaurinserie för en komplex funktion, bestämning av konvergensradien för en potensserie, approximation av funktionsvärden med Taylorpolynom med feluppskattning, eller summering av en oändlig serie med slutet form.'
+  },
+  {
+    id: 'gudaprov',
+    name: '⚡ Gudaprövning',
+    desc: 'Zeus kombinerar ALLT — uppgifter som blandar derivata, integraler, trigonometri och komplexa tal i helvetisk harmoni',
+    prompt: 'GUDAPRÖVNING för Matematik 4 NP: Skapa den absolut svåraste tänkbara uppgiften som KOMBINERAR minst 3 av dessa områden: derivata, integraler, trigonometri, komplexa tal, differentialekvationer, vektorer, serier. Uppgiften ska vara sammanhängande och logisk, inte bara en samling deluppgifter. Det kan vara t.ex. att lösa en DE som involverar en trigonometrisk funktion och sedan beräkna en integral av lösningen, eller att använda komplexa tal för att bevisa en trigonometrisk identitet. EXTREMT svår — NP D-nivå.'
+  }
+];
+
+let curTopic = TOPICS[0];
+let cnt = 0;
+let correct = 0;
+let showHint = false;
+let showSol = false;
+let ldrInt = null;
+let lastDiff = '—';
+
+const LOADER_MSGS = [
+  'Zeus formular uppgiften...',
+  'Athena granskar logiken...',
+  'Apollon komponerar ekvationerna...',
+  'Gudarna konfererar på Olympos...',
+  'Hermes levererar sanningen...',
+  'Pythagoras nickar instämmande...',
+  'Matematikens mysterier uppenbaras...',
+  'Euklides kontrollerar beviset...'
+];
+
+function renderTopics() {
+  const g = document.getElementById('topicGrid');
+  g.innerHTML = TOPICS.map(t =>
+    `<button class="tbtn${t.id === curTopic.id ? ' act' : ''}" onclick="setTopic('${t.id}')">${t.name}</button>`
+  ).join('');
+  document.getElementById('topicDesc').textContent = curTopic.desc;
+}
+
+function setTopic(id) {
+  curTopic = TOPICS.find(t => t.id === id);
+  renderTopics();
+}
+
+async function gen() {
+  const btn = document.getElementById('sbtn');
+  btn.disabled = true;
+  showHint = false;
+  showSol = false;
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('probCard').classList.remove('vis');
+  const ldr = document.getElementById('loader');
+  ldr.classList.add('vis');
+
+  let mi = 0;
+  ldrInt = setInterval(() => {
+    document.getElementById('loaderMsg').textContent = LOADER_MSGS[mi++ % LOADER_MSGS.length];
+  }, 900);
+
+  const sys = `Du är Zeus, den allsmäktige guden över all matematik och vetenskap på Olympos. Du har skapat universum och känner alla matematikens lagar. Du skapar EXTREMT SVÅRA uppgifter för svenska Matematik 4 NP (nationella prov) på C och D-nivå.
+
+UPPGIFTSTYP: ${curTopic.prompt}
+
+ABSOLUTA KRAV:
+1. SVENSKA: Skriv hela uppgiften och lösningen på svenska
+2. SVÅRIGHETSGRAD: Minst 4/5 — kombinera flera matematiska koncept i en sammanhängande uppgift
+3. REALISM: Formela uppgiften som ett riktigt NP-problem, gärna med verklig kontext och deluppgifter (a), b), c))
+4. LATEX: Använd $...$ för inline-matematik och $$...$$ för display-matematik (på egna rader)
+5. LÖSNING: Ge fullständig, pedagogisk steg-för-steg lösning med motiveringar på svenska med LaTeX
+6. TIPS: Ge ett subtilt tips som pekar studenten rätt utan att avslöja metoden
+7. FORMAT: Svara ENBART med giltig JSON, inga backticks, ingen text utanför JSON
+
+JSON-FORMAT (exakt):
+{"title":"Kort titel på uppgiften","problem":"Fullständig uppgiftstext med LaTeX-notation och deluppgifter","difficulty":4,"solution":"Fullständig steg-för-steg lösning med LaTeX och motiveringar","hint":"Subtilt tips som pekar rätt utan att avslöja lösningsmetoden"}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        system: sys,
+        messages: [{
+          role: 'user',
+          content: `Skapa nu en extremt svår ${curTopic.name}-uppgift för Matematik 4 NP. Returnera ENBART JSON.`
+        }]
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message || 'API-fel');
+
+    const raw = data.content.map(b => b.text || '').join('');
+    const clean = raw.replace(/^```json\s*/m, '').replace(/```\s*$/m, '').trim();
+    const prob = JSON.parse(clean);
+
+    cnt++;
+    lastDiff = '⚡'.repeat(Math.min(5, Math.max(1, prob.difficulty || 4)));
+    displayProb(prob);
+    updateStats();
+
+  } catch (e) {
+    clearInterval(ldrInt);
+    ldr.classList.remove('vis');
+    document.getElementById('emptyState').style.display = 'block';
+    document.getElementById('emptyState').querySelector('.empty-title').textContent = 'Gudarna är ej nåbara';
+    document.getElementById('emptyState').querySelector('.empty-sub').textContent = e.message || 'Ett fel uppstod — kontrollera konsolen';
+    console.error(e);
+    btn.disabled = false;
+    return;
+  }
+
+  clearInterval(ldrInt);
+  ldr.classList.remove('vis');
+  btn.disabled = false;
+}
+
+function nl2br(s) {
+  return (s || '').replace(/\n/g, '<br>');
+}
+
+function displayProb(p) {
+  document.getElementById('probTitle').textContent = p.title || 'Uppgift från Olympos';
+  document.getElementById('probNum').textContent = '#' + cnt;
+  document.getElementById('topicChip').textContent = curTopic.name;
+
+  const d = Math.min(5, Math.max(1, p.difficulty || 4));
+  document.getElementById('diffEl').innerHTML = Array.from({ length: 5 }, (_, i) =>
+    `<span class="diff-star" style="color:${i < d ? '#c9a227' : 'rgba(201,162,39,0.15)'}">⚡</span>`
+  ).join('');
+
+  document.getElementById('probBody').innerHTML = nl2br(p.problem || '');
+  document.getElementById('hintTxt').textContent = p.hint || '';
+  document.getElementById('solBody').innerHTML = nl2br(p.solution || '');
+
+  document.getElementById('hintPanel').classList.remove('vis');
+  document.getElementById('solPanel').classList.remove('vis');
+
+  const card = document.getElementById('probCard');
+  card.classList.add('vis');
+
+  if (window.renderMathInElement) {
+    const opts = {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false },
+        { left: '\\[', right: '\\]', display: true }
+      ],
+      throwOnError: false,
+      output: 'htmlAndMathml'
+    };
+    renderMathInElement(card, opts);
+  }
+}
+
+function toggleHint() {
+  showHint = !showHint;
+  document.getElementById('hintPanel').classList.toggle('vis', showHint);
+}
+
+function toggleSol() {
+  showSol = !showSol;
+  const sp = document.getElementById('solPanel');
+  sp.classList.toggle('vis', showSol);
+  if (showSol && window.renderMathInElement) {
+    renderMathInElement(sp, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false }
+      ],
+      throwOnError: false
+    });
+  }
+  if (showSol) {
+    correct++;
+    updateStats();
+  }
+}
+
+function updateStats() {
+  document.getElementById('cntTotal').textContent = cnt;
+  document.getElementById('cntCorrect').textContent = correct;
+  document.getElementById('cntDiff').textContent = lastDiff;
+}
+
+// INIT
+renderTopics();
+</script>
+</body>
+</html>
